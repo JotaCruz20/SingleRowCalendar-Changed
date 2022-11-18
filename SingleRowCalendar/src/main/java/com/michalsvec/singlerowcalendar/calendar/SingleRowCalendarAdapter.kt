@@ -1,5 +1,3 @@
-package com.michalsvec.singlerowcalendar.calendar
-
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,8 +12,8 @@ import java.util.*
  */
 
 class SingleRowCalendarAdapter(
-    private val dateList: List<Date>,
-    private var calendarViewManager: CalendarViewManager
+        private val dateList: List<Date>,
+        private var calendarViewManager: CalendarViewManager
 ) : RecyclerView.Adapter<SingleRowCalendarAdapter.CalendarViewHolder>() {
 
     companion object {
@@ -29,10 +27,14 @@ class SingleRowCalendarAdapter(
     inner class CalendarViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
         fun getItemDetails(): ItemDetailsLookup.ItemDetails<Long> =
-            object : ItemDetailsLookup.ItemDetails<Long>() {
-                override fun getPosition(): Int = adapterPosition
-                override fun getSelectionKey(): Long? = itemId
-            }
+                object : ItemDetailsLookup.ItemDetails<Long>() {
+                    override fun getPosition(): Int = adapterPosition
+                    override fun getSelectionKey(): Long? = itemId
+                }
+
+        fun getView(): View {
+            return itemView;
+        }
 
     }
 
@@ -52,15 +54,15 @@ class SingleRowCalendarAdapter(
         val viewId = if (position < 0)
         // when position is negative, item is selected and then we have to take position back to original state
             calendarViewManager.setCalendarViewResourceId(
-                (position * -1) - 1,
-                dateList[(position * -1) - 1],
-                true
+                    (position * -1) - 1,
+                    dateList[(position * -1) - 1],
+                    true
             )
         else
             calendarViewManager.setCalendarViewResourceId(
-                position,
-                dateList[position],
-                false
+                    position,
+                    dateList[position],
+                    false
             )
 
 
@@ -71,12 +73,12 @@ class SingleRowCalendarAdapter(
 
 
     override fun onBindViewHolder(holder: CalendarViewHolder, position: Int) =
-        calendarViewManager.bindDataToCalendarView(
-            holder,
-            dateList[position],
-            position,
-            selectionTracker.isSelected(position.toLong())
-        )
+            calendarViewManager.bindDataToCalendarView(
+                    holder,
+                    dateList[position],
+                    position,
+                    selectionTracker.isSelected(position.toLong())
+            )
 
     override fun getItemCount() = dateList.size
 
